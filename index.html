@@ -3,10 +3,107 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Hello World</title>
+	<meta name="description" content="The personal portfolio of Dhanush M.">
+	<title>Dhanush M | Portfolio</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #17202d;
+			--muted: #536071;
+			--paper: #f7f0dc;
+			--mint: #8de8d0;
+			--coral: #ff6b4a;
+			--yellow: #ffd166;
+			--line: rgba(23, 32, 45, .22);
+		}
+
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			margin: 0;
+			color: var(--ink);
+			background-color: var(--paper);
+			background-image: linear-gradient(rgba(23,32,45,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(23,32,45,.035) 1px, transparent 1px);
+			background-size: 24px 24px;
+			font-family: "VT323", monospace;
+			line-height: 1.5;
+		}
+		body::before { content: ""; position: fixed; inset: 0; z-index: 10; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(23,32,45,.035) 0, rgba(23,32,45,.035) 1px, transparent 1px, transparent 4px); mix-blend-mode: multiply; }
+		a { color: inherit; }
+		.shell { max-width: 1180px; margin: auto; padding: 0 30px; }
+		header { border-bottom: 3px solid var(--ink); background: rgba(247,240,220,.9); }
+		nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; }
+		.nav-links { display: flex; gap: 28px; color: var(--muted); font-size: 1.2rem; text-transform: uppercase; }
+		.nav-links a { text-decoration: none; }
+		.nav-links a:hover { color: var(--ink); }
+		.nav-links a:first-child { color: var(--coral); font-weight: 700; }
+		.hero { min-height: 620px; display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 70px; padding: 80px 0 100px; }
+		.eyebrow { color: var(--coral); font-size: 1.05rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+		h1, h2, h3 { font-family: "Press Start 2P", monospace; margin: 0; }
+		h1 { max-width: 700px; margin-top: 20px; font-size: clamp(2.4rem, 6vw, 5.6rem); line-height: 1.25; text-shadow: 5px 5px 0 var(--yellow); }
+		.hero-copy { max-width: 500px; margin: 30px 0 34px; color: var(--muted); font-size: 1.45rem; }
+		.button { display: inline-flex; align-items: center; gap: 11px; padding: 14px 18px; border: 3px solid var(--ink); border-radius: 0; background: var(--coral); color: var(--ink); font-size: 1.15rem; font-weight: 700; text-decoration: none; box-shadow: 5px 5px 0 var(--ink); transition: transform .15s, box-shadow .15s; }
+		.button:hover { background: var(--yellow); transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+		.button svg { width: 16px; height: 16px; }
+		.portrait { position: relative; min-height: 410px; display: grid; place-items: center; border: 3px solid var(--ink); background-color: var(--mint); background-image: linear-gradient(rgba(23,32,45,.16) 2px, transparent 2px), linear-gradient(90deg, rgba(23,32,45,.16) 2px, transparent 2px); background-size: 32px 32px; overflow: hidden; box-shadow: 10px 10px 0 var(--coral); }
+		.portrait::before, .portrait::after { content: ""; position: absolute; border: 3px solid rgba(23,32,45,.4); border-radius: 50%; }
+		.portrait::before { width: 360px; height: 360px; }
+		.portrait::after { width: 470px; height: 470px; }
+		.section { border-top: 3px solid var(--ink); padding: 78px 0; }
+		.section-grid { display: grid; grid-template-columns: .65fr 1.35fr; gap: 80px; }
+		h2 { font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.35; }
+		.section-text { max-width: 630px; color: var(--muted); font-size: 1.35rem; }
+		.contact { background: var(--ink); color: var(--paper); background-image: linear-gradient(rgba(141,232,208,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(141,232,208,.08) 1px, transparent 1px); background-size: 24px 24px; }
+		.contact .eyebrow { color: var(--mint); }
+		.contact .section-grid { align-items: end; }
+		.contact .section-text { color: #b9c6cf; }
+		.contact .button { background: var(--mint); }
+		.contact .button:hover { background: var(--mint); color: var(--ink); }
+		.contact-details { display: grid; gap: 8px; margin: 26px 0; }
+		.contact-label { display: inline-block; min-width: 116px; color: var(--coral); font-size: 1.05rem; text-transform: uppercase; }
+		.contact-details a { color: var(--paper); font-family: "Space Grotesk", sans-serif; font-size: 1.05rem; text-decoration: none; }
+		.contact-details a:hover { color: var(--mint); }
+		footer { padding: 24px 0; color: var(--muted); font-size: 1rem; }
+		@media (max-width: 720px) {
+			.shell { padding: 0 20px; }
+			.nav-links { gap: 14px; font-size: .76rem; }
+			.hero { display: flex; flex-direction: column; align-items: stretch; gap: 42px; padding: 65px 0 75px; }
+			.portrait { min-height: 300px; }
+			.initials { font-size: 6rem; }
+			.section { padding: 58px 0; }
+			.section-grid { grid-template-columns: 1fr; gap: 28px; }
+		}
+	</style>
 </head>
 <body>
-	<h1>Hello world</h1>
-    <h2>THis is Dhanush M</h2>
+	<header>
+		<div class="shell">
+			<nav aria-label="Main navigation">
+				<div class="nav-links">
+					<a href="index.html">Home</a>
+					<a href="contact.html">Contact</a>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<main id="top">
+		<section class="shell hero">
+			<div>
+				<div class="eyebrow">Personal portfolio</div>
+				<h1>Dhanush M</h1>
+				<p class="hero-copy">An engineering student building practical ideas, learning in public, and looking for the next interesting problem to solve.</p>
+				<a class="button" href="https://www.linkedin.com/in/dhanush-m-9888b440a" target="_blank" rel="noopener noreferrer">
+					View LinkedIn profile
+					<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 13 13 3M5 3h8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+				</a>
+			</div>
+			<div class="portrait" aria-label="Interactive 3D visual">
+			</div>
+		</section>
+	</main>
+	<footer><div class="shell">© 2026 Dhanush M</div></footer>
 </body>
 </html>
