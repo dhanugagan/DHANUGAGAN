@@ -1,0 +1,56 @@
+:root {
+	--ink: #17202d;
+	--muted: #536071;
+	--paper: #f7f0dc;
+	--mint: #8de8d0;
+	--coral: #ff6b4a;
+	--yellow: #ffd166;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background-color: var(--paper); background-image: linear-gradient(rgba(23,32,45,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(23,32,45,.04) 1px, transparent 1px); background-size: 24px 24px; font-family: "VT323", monospace; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0; z-index: 10; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(23,32,45,.035) 0, rgba(23,32,45,.035) 1px, transparent 1px, transparent 4px); mix-blend-mode: multiply; }
+body.crt-boost::before { background: repeating-linear-gradient(0deg, rgba(23,32,45,.12) 0, rgba(23,32,45,.12) 1px, transparent 1px, transparent 3px); mix-blend-mode: multiply; }
+body.crt-boost::after { content: "SIGNAL BOOST"; position: fixed; right: 18px; top: 14px; z-index: 11; padding: 5px 8px; border: 2px solid currentColor; color: var(--coral); background: var(--paper); font-size: .82rem; letter-spacing: .08em; pointer-events: none; animation: crt-flicker 1.7s steps(2, end) infinite; }
+body.crt-boost .card, body.crt-boost .project, body.crt-boost .button { animation: crt-jitter 7s steps(2, end) infinite; }
+@keyframes crt-flicker { 0%, 92%, 100% { opacity: 1; } 94% { opacity: .35; } }
+@keyframes crt-jitter { 0%, 96%, 100% { translate: 0 0; } 97% { translate: 1px 0; } 98% { translate: -1px 0; } }
+a { color: inherit; }
+.shell { width: min(1180px, 100%); margin: auto; padding: 0 30px; }
+header { border-bottom: 3px solid var(--ink); background: rgba(247,240,220,.94); }
+nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+.brand { color: var(--coral); font-family: "Press Start 2P", monospace; font-size: .9rem; text-decoration: none; white-space: nowrap; }
+.nav-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 18px; color: var(--muted); font-size: 1.1rem; text-transform: uppercase; }
+.nav-links a { text-decoration: none; }
+.nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--coral); font-weight: 700; }
+.page-hero { padding: 78px 0 48px; border-bottom: 3px solid var(--ink); }
+.eyebrow { color: var(--coral); font-size: 1.05rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+h1, h2, h3 { font-family: "Press Start 2P", monospace; margin: 0; }
+h1 { max-width: 850px; margin-top: 18px; font-size: clamp(2rem, 5vw, 4.8rem); line-height: 1.3; text-shadow: 5px 5px 0 var(--yellow); overflow-wrap: anywhere; }
+.lede { max-width: 780px; margin: 28px 0 0; color: var(--muted); font-size: 1.5rem; }
+.content { padding: 52px 0 90px; }
+.card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.card { min-height: 180px; padding: 22px; border: 3px solid var(--ink); background: rgba(255,255,255,.3); box-shadow: 7px 7px 0 var(--mint); transition: transform .16s, box-shadow .16s, background .16s; transform-style: preserve-3d; will-change: transform; }
+.card:hover { background: var(--yellow); transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--coral); }
+.card h2, .card h3 { font-size: 1.05rem; line-height: 1.55; }
+.card p, .card li { margin: 12px 0 0; color: var(--muted); font-size: 1.3rem; }
+.card ul { margin: 10px 0 0; padding-left: 22px; }
+.card strong { color: var(--ink); }
+.number { display: block; margin-bottom: 16px; color: var(--coral); font-size: 1.1rem; font-weight: 700; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.pill { padding: 10px 13px; border: 2px solid var(--ink); background: var(--yellow); font-size: 1.2rem; }
+.highlight { background: var(--ink); color: var(--paper); box-shadow: 7px 7px 0 var(--coral); }
+.highlight p, .highlight li { color: #b9c6cf; }
+.highlight strong { color: var(--mint); }
+.highlight .number { color: var(--mint); }
+.page-tools { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.page-tool { padding: 9px 13px; border: 3px solid var(--ink); background: var(--mint); color: var(--ink); cursor: pointer; box-shadow: 4px 4px 0 var(--ink); font: inherit; font-weight: 700; }
+.page-tool:hover { background: var(--coral); transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+.page-tool.crt-active { background: var(--coral); }
+.page-tool[aria-pressed="false"] { background: var(--coral); }
+.voice-status { position: fixed; right: 22px; bottom: 22px; z-index: 15; display: none; padding: 9px 12px; border: 3px solid var(--ink); background: var(--mint); color: var(--ink); font-size: 1.05rem; box-shadow: 4px 4px 0 var(--ink); }
+.voice-status.is-active { display: block; animation: status-blink 1s step-end infinite; }
+@keyframes status-blink { 50% { opacity: .35; } }
+footer { padding: 24px 0; border-top: 3px solid var(--ink); color: var(--muted); font-size: 1rem; }
+@media (max-width: 850px) { nav { align-items: flex-start; flex-direction: column; padding: 18px 0; } .nav-links { justify-content: flex-start; } .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .shell { padding: 0 20px; } .page-hero { padding: 55px 0 38px; } .card-grid { grid-template-columns: 1fr; } .brand { font-size: .78rem; } }

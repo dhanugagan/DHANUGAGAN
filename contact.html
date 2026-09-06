@@ -8,6 +8,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="portfolio.css">
 	<style>
 		:root { --ink: #17202d; --muted: #536071; --paper: #f7f0dc; --mint: #8de8d0; --coral: #ff6b4a; --yellow: #ffd166; }
 		* { box-sizing: border-box; }
@@ -17,7 +18,7 @@
 		.shell { max-width: 1180px; margin: auto; padding: 0 30px; }
 		header { border-bottom: 3px solid var(--mint); background: rgba(23,32,45,.9); }
 		nav { min-height: 78px; display: flex; align-items: center; justify-content: flex-end; }
-		.nav-links { display: flex; gap: 28px; color: #b9c6cf; font-size: 1.2rem; text-transform: uppercase; }
+		.nav-links { display: flex; flex-wrap: wrap; gap: 8px 28px; color: #b9c6cf; font-size: 1.2rem; text-transform: uppercase; }
 		.nav-links a { text-decoration: none; }
 		.nav-links a:hover, .nav-links a:last-child { color: var(--mint); }
 		.section { min-height: calc(100vh - 140px); display: grid; align-items: center; padding: 80px 0; }
@@ -32,6 +33,9 @@
 		.contact-label { min-width: 130px; color: var(--coral); font-size: 1.15rem; text-transform: uppercase; }
 		.contact-details a { color: var(--paper); font-size: 1.45rem; text-decoration: none; }
 		.contact-details a:hover { color: var(--mint); }
+		.social-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 30px; }
+		.social-links a { color: var(--mint); font-size: 1.2rem; font-weight: 700; text-decoration: none; }
+		.social-links a:hover { color: var(--yellow); }
 		.button { display: inline-flex; align-items: center; gap: 11px; padding: 14px 18px; border: 3px solid var(--ink); background: var(--mint); color: var(--ink); font-size: 1.15rem; font-weight: 700; text-decoration: none; box-shadow: 5px 5px 0 var(--coral); transition: transform .15s, box-shadow .15s; }
 		.button:hover { background: var(--yellow); transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--coral); }
 		footer { padding: 24px 0; color: #b9c6cf; font-size: 1rem; border-top: 3px solid var(--mint); }
@@ -44,6 +48,12 @@
 			<nav aria-label="Main navigation">
 				<div class="nav-links">
 					<a href="index.html">Home</a>
+					<a href="career.html">Career</a>
+					<a href="education.html">Education</a>
+					<a href="skills.html">Skills</a>
+					<a href="projects.html">Projects</a>
+					<a href="achievements.html">Achievements</a>
+					<a href="certifications.html">Learning</a>
 					<a href="contact.html">Contact</a>
 				</div>
 			</nav>
@@ -57,14 +67,24 @@
 					<h2>Contact Dhanush M</h2>
 					<p class="copy">The quickest way to connect with Dhanush is through LinkedIn. Reach out to compare ideas, share an opportunity, or discuss a project.</p>
 					<div class="contact-details">
+						<div><span class="contact-label">Based in:</span><span>Bengaluru, Karnataka</span></div>
 						<div><span class="contact-label">Email ID:</span><a href="mailto:dhanugagan2006@gmail.com">dhanugagan2006@gmail.com</a></div>
 						<div><span class="contact-label">Phone number:</span><a href="tel:+918217415366">+91 8217415366</a></div>
 					</div>
 					<a class="button" href="https://www.linkedin.com/in/dhanush-m-9888b440a" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true">&#8599;</span></a>
+					<div class="social-links" aria-label="Social and project links">
+						<a href="https://github.com/dhanugagan" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+						<a href="https://www.instagram.com/_dhanush.udedar_/" target="_blank" rel="noopener noreferrer">Personal Instagram ↗</a>
+						<a href="https://www.instagram.com/saptha_snpsu/" target="_blank" rel="noopener noreferrer">SAPTHA Instagram ↗</a>
+						<a href="https://leetcode.com/u/DhanushX20/" target="_blank" rel="noopener noreferrer">LeetCode ↗</a>
+						<a href="https://www.snapchat.com/add/dhanush_udedar" target="_blank" rel="noopener noreferrer">Snapchat ↗</a>
+						<a href="https://sapthasnpsuportal.vercel.app/" target="_blank" rel="noopener noreferrer">Campus portal ↗</a>
+					</div>
 				</div>
 			</div>
 		</section>
 	</main>
 	<footer><div class="shell">© 2026 Dhanush M</div></footer>
+	<script src="portfolio.js"></script>
 </body>
 </html>

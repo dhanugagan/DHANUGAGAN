@@ -8,6 +8,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="portfolio.css">
 	<style>
 		:root {
 			--ink: #17202d;
@@ -16,11 +17,21 @@
 			--mint: #8de8d0;
 			--coral: #ff6b4a;
 			--yellow: #ffd166;
+			--sky: #69c7ff;
+			--pink: #ff9fcf;
+			--navy: #304a70;
+			--cube-1: var(--coral);
+			--cube-2: var(--yellow);
+			--cube-3: var(--mint);
+			--cube-4: var(--sky);
+			--cube-5: var(--pink);
+			--cube-6: var(--navy);
 			--line: rgba(23, 32, 45, .22);
 		}
 
 		* { box-sizing: border-box; }
 		html { scroll-behavior: smooth; }
+		body, header, .section, .project, .education-item, .cert-item, .milestones li, .button, .skill { transition: background-color 1.2s ease, color 1.2s ease, border-color 1.2s ease, box-shadow 1.2s ease; }
 		body {
 			margin: 0;
 			color: var(--ink);
@@ -32,6 +43,7 @@
 		}
 		body::before { content: ""; position: fixed; inset: 0; z-index: 10; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(23,32,45,.035) 0, rgba(23,32,45,.035) 1px, transparent 1px, transparent 4px); mix-blend-mode: multiply; }
 		a { color: inherit; }
+		button { font: inherit; }
 		.shell { max-width: 1180px; margin: auto; padding: 0 30px; }
 		header { border-bottom: 3px solid var(--ink); background: rgba(247,240,220,.9); }
 		nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; }
@@ -39,19 +51,72 @@
 		.nav-links a { text-decoration: none; }
 		.nav-links a:hover { color: var(--ink); }
 		.nav-links a:first-child { color: var(--coral); font-weight: 700; }
-		.hero { min-height: 620px; display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 70px; padding: 80px 0 100px; }
+		.hero { min-height: 620px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: 70px; padding: 80px 0 100px; }
 		.eyebrow { color: var(--coral); font-size: 1.05rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 		h1, h2, h3 { font-family: "Press Start 2P", monospace; margin: 0; }
-		h1 { max-width: 700px; margin-top: 20px; font-size: clamp(2.4rem, 6vw, 5.6rem); line-height: 1.25; text-shadow: 5px 5px 0 var(--yellow); }
+		h1 { max-width: 700px; margin-top: 20px; overflow-wrap: anywhere; font-size: clamp(2.4rem, 6vw, 5.6rem); line-height: 1.25; text-shadow: 5px 5px 0 var(--yellow); }
 		.hero-copy { max-width: 500px; margin: 30px 0 34px; color: var(--muted); font-size: 1.45rem; }
 		.button { display: inline-flex; align-items: center; gap: 11px; padding: 14px 18px; border: 3px solid var(--ink); border-radius: 0; background: var(--coral); color: var(--ink); font-size: 1.15rem; font-weight: 700; text-decoration: none; box-shadow: 5px 5px 0 var(--ink); transition: transform .15s, box-shadow .15s; }
 		.button:hover { background: var(--yellow); transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
 		.button svg { width: 16px; height: 16px; }
-		.portrait { position: relative; min-height: 410px; display: grid; place-items: center; border: 3px solid var(--ink); background-color: var(--mint); background-image: linear-gradient(rgba(23,32,45,.16) 2px, transparent 2px), linear-gradient(90deg, rgba(23,32,45,.16) 2px, transparent 2px); background-size: 32px 32px; overflow: hidden; box-shadow: 10px 10px 0 var(--coral); }
-		.portrait::before, .portrait::after { content: ""; position: absolute; border: 3px solid rgba(23,32,45,.4); border-radius: 50%; }
-		.portrait::before { width: 360px; height: 360px; }
-		.portrait::after { width: 470px; height: 470px; }
+		.portrait { position: relative; min-height: 410px; display: grid; place-items: center; border: 3px solid var(--ink); background-color: var(--mint); background-image: linear-gradient(rgba(23,32,45,.16) 2px, transparent 2px), linear-gradient(90deg, rgba(23,32,45,.16) 2px, transparent 2px); background-size: 32px 32px; overflow: hidden; box-shadow: 10px 10px 0 var(--coral); perspective: 900px; cursor: crosshair; }
+		.portrait::before, .portrait::after { content: ""; position: absolute; border: 3px solid rgba(23,32,45,.4); border-radius: 50%; pointer-events: none; }
+		.portrait::before { width: 360px; height: 360px; animation: orbit 12s linear infinite; }
+		.portrait::after { width: 470px; height: 470px; animation: orbit 18s linear reverse infinite; }
+		.console-3d { position: relative; z-index: 1; width: 230px; height: 230px; transform-style: preserve-3d; transform: rotateX(-14deg) rotateY(-24deg); transition: transform .12s ease-out; animation: cube-spin 14s linear infinite; }
+		.console-face { position: absolute; inset: 0; display: grid; place-items: center; border: 4px solid var(--ink); background: var(--cube-1); box-shadow: inset 0 0 0 8px rgba(247,240,220,.22); backface-visibility: hidden; transition: background-color .8s ease; }
+		.console-face::before { content: "DHANU"; display: grid; place-items: center; width: 156px; height: 122px; border: 5px solid var(--ink); border-radius: 50%; color: var(--yellow); font-family: "Press Start 2P", monospace; font-size: .78rem; letter-spacing: .04em; text-align: center; text-shadow: 3px 3px 0 var(--ink); box-shadow: 10px 10px 0 var(--ink); animation: wordmark-glitch 2.8s steps(1, end) infinite; }
+		.console-face.front { transform: translateZ(115px); }
+		.console-face.back { transform: rotateY(180deg) translateZ(115px); background: var(--cube-2); }
+		.console-face.right { transform: rotateY(90deg) translateZ(115px); background: var(--cube-3); }
+		.console-face.left { transform: rotateY(-90deg) translateZ(115px); background: var(--cube-4); }
+		.console-face.top { transform: rotateX(90deg) translateZ(115px); background: var(--cube-5); }
+		.console-face.bottom { transform: rotateX(-90deg) translateZ(115px); background: var(--cube-6); }
+		.instagram-video { width: 100%; height: 100%; border: 0; background: var(--paper); }
+		.instagram-fallback { position: absolute; right: 8px; bottom: 8px; z-index: 2; padding: 3px 6px; border: 2px solid var(--ink); background: var(--yellow); color: var(--ink); font-size: .8rem; font-weight: 700; text-decoration: none; }
+		.social-face { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: var(--ink); text-align: center; }
+		.social-face strong { font-family: "Press Start 2P", monospace; font-size: 1rem; }
+		.social-face a { padding: 8px 10px; border: 3px solid var(--ink); background: var(--paper); color: var(--ink); font-size: 1.05rem; font-weight: 700; text-decoration: none; box-shadow: 4px 4px 0 var(--ink); animation: social-pulse 2.4s ease-in-out infinite; }
+		.social-face a:hover { background: var(--coral); transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+		.more-socials { gap: 7px; }
+		.more-socials strong { font-size: .8rem; }
+		.more-socials a { padding: 4px 5px; font-size: .75rem; box-shadow: 3px 3px 0 var(--ink); }
+		.console-face.bottom.social-face { color: var(--paper); }
+		@keyframes social-pulse { 0%, 100% { rotate: -2deg; } 50% { rotate: 2deg; } }
+		.console-label { position: absolute; bottom: 22px; left: 22px; color: var(--ink); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; }
+		.console-status { position: absolute; top: 18px; right: 18px; padding: 5px 8px; border: 2px solid var(--ink); background: var(--yellow); font-size: .95rem; font-weight: 700; }
+		@keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+		@keyframes cube-spin { from { transform: rotateX(-14deg) rotateY(-24deg) rotateZ(0deg); } to { transform: rotateX(346deg) rotateY(336deg) rotateZ(360deg); } }
+		@keyframes wordmark-glitch { 0%, 82%, 100% { color: var(--yellow); transform: translate(0, 0); text-shadow: 3px 3px 0 var(--ink); } 84% { color: var(--mint); transform: translate(3px, -2px); text-shadow: -3px 2px 0 var(--coral), 3px 3px 0 var(--ink); } 86% { color: var(--coral); transform: translate(-2px, 2px); text-shadow: 3px -2px 0 var(--mint), 3px 3px 0 var(--ink); } 88% { color: var(--yellow); transform: translate(0, 0); text-shadow: 3px 3px 0 var(--ink); } }
+		@keyframes orbit { to { rotate: 360deg; } }
+		@keyframes blink { 50% { opacity: .35; } }
 		.section { border-top: 3px solid var(--ink); padding: 78px 0; }
+		.section.reveal-ready { opacity: 0; transform: translateY(34px); }
+		.section.reveal-ready.is-visible { opacity: 1; transform: translateY(0); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+		.section.reveal-ready .content-grid > * { opacity: 0; transform: translateY(18px); }
+		.section.reveal-ready.is-visible .content-grid > * { opacity: 1; transform: translateY(0); transition: opacity .55s ease .16s, transform .55s ease .16s; }
+		.section.reveal-ready.is-visible .content-grid > :nth-child(2) { transition-delay: .28s; }
+		#about { position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(141,232,208,.22), transparent 42%); }
+		#about::after { content: "ABOUT.EXE"; position: absolute; right: 4%; bottom: 16px; color: rgba(23,32,45,.12); font-family: "Press Start 2P", monospace; font-size: clamp(1rem, 5vw, 4rem); transform: rotate(-8deg); pointer-events: none; }
+		#skills { background: linear-gradient(90deg, transparent 49.8%, rgba(255,107,74,.11) 50%, transparent 50.2%); }
+		#skills .skill { animation: chip-float 4s ease-in-out infinite; }
+		#skills .skill:nth-child(2n) { animation-delay: -.8s; }
+		#skills .skill:nth-child(3n) { animation-delay: -1.6s; }
+		#projects { background-color: rgba(255,209,102,.12); background-image: radial-gradient(rgba(23,32,45,.16) 1px, transparent 1px); background-size: 18px 18px; }
+		#projects .project { position: relative; overflow: hidden; }
+		#projects .project::after { content: "OPEN FILE"; position: absolute; top: 10px; right: 12px; color: rgba(23,32,45,.35); font-size: .85rem; opacity: 0; transform: translateX(8px); transition: opacity .2s, transform .2s; }
+		#projects .project:hover::after { opacity: 1; transform: translateX(0); }
+		#certifications { background: linear-gradient(160deg, rgba(255,107,74,.1), transparent 55%); }
+		#certifications .cert-item { border-left-color: var(--mint); }
+		#journey { background: linear-gradient(90deg, rgba(141,232,208,.15), transparent 30%, rgba(255,209,102,.13)); }
+		#journey .milestones li::before { content: "✓"; display: inline-block; margin-right: 10px; color: var(--coral); font-weight: 700; animation: signal-pulse 1.8s ease-in-out infinite; }
+		#focus { position: relative; overflow: hidden; }
+		#focus::before { content: "NEXT LEVEL"; position: absolute; right: 5%; top: 22px; color: rgba(141,232,208,.16); font-family: "Press Start 2P", monospace; font-size: clamp(1.2rem, 6vw, 5rem); transform: rotate(5deg); }
+		#focus .focus-strip span { animation: focus-pulse 3s ease-in-out infinite; }
+		#focus .focus-strip span:nth-child(2n) { animation-delay: -1.5s; }
+		@keyframes chip-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+		@keyframes signal-pulse { 0%, 100% { opacity: .45; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+		@keyframes focus-pulse { 0%, 100% { border-color: var(--mint); } 50% { border-color: var(--yellow); box-shadow: 0 0 0 4px rgba(255,209,102,.12); } }
 		.section-grid { display: grid; grid-template-columns: .65fr 1.35fr; gap: 80px; }
 		h2 { font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.35; }
 		.section-text { max-width: 630px; color: var(--muted); font-size: 1.35rem; }
@@ -65,6 +130,42 @@
 		.contact-label { display: inline-block; min-width: 116px; color: var(--coral); font-size: 1.05rem; text-transform: uppercase; }
 		.contact-details a { color: var(--paper); font-family: "Space Grotesk", sans-serif; font-size: 1.05rem; text-decoration: none; }
 		.contact-details a:hover { color: var(--mint); }
+		.content-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 80px; }
+		.skills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+		.skill { padding: 7px 11px; border: 2px solid var(--ink); background: var(--yellow); font-size: 1.1rem; }
+		.project-list { display: grid; gap: 16px; }
+		.project { padding: 20px; border: 3px solid var(--ink); background: rgba(255,255,255,.28); box-shadow: 6px 6px 0 var(--mint); cursor: pointer; transition: transform .15s, box-shadow .15s, background .15s; }
+		.project:hover, .project:focus-within { background: var(--yellow); transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--coral); }
+		.project h3 { font-size: 1.15rem; line-height: 1.5; }
+		.project p { margin: 8px 0 0; color: var(--muted); font-size: 1.25rem; }
+		.project a { color: var(--coral); font-weight: 700; }
+		.milestones { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 1.3rem; }
+		.milestones li { padding: 14px 16px; border: 3px solid var(--ink); background: rgba(255,255,255,.28); cursor: pointer; transform-style: preserve-3d; transition: transform .16s, box-shadow .16s, background .16s; box-shadow: 5px 5px 0 var(--yellow); }
+		.milestones li:hover { background: var(--mint); transform: translate(-3px, -3px) rotateX(2deg) rotateY(2deg); box-shadow: 8px 8px 0 var(--coral); }
+		.milestones strong { color: var(--ink); }
+		.socials { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 28px; font-size: 1.2rem; }
+		.socials a { color: var(--coral); font-weight: 700; text-decoration: none; }
+		.socials a:hover { color: var(--ink); }
+		.education-list, .cert-list { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+		.education-item, .cert-item { padding: 16px 18px; border: 3px solid var(--ink); border-left: 8px solid var(--coral); background: rgba(255,255,255,.28); font-size: 1.25rem; cursor: pointer; transform-style: preserve-3d; transition: transform .16s, box-shadow .16s, background .16s; box-shadow: 6px 6px 0 var(--mint); }
+		.education-item:hover, .cert-item:hover { background: var(--yellow); transform: translate(-3px, -3px) rotateX(2deg) rotateY(-2deg); box-shadow: 9px 9px 0 var(--coral); }
+		.education-item strong, .cert-item strong { display: block; color: var(--ink); font-family: "Press Start 2P", monospace; font-size: .95rem; line-height: 1.6; }
+		.focus-strip { display: flex; flex-wrap: wrap; gap: 12px; color: var(--paper); font-size: 1.3rem; }
+		.focus-strip span { padding: 12px 14px; border: 3px solid var(--mint); color: var(--mint); cursor: pointer; transform-style: preserve-3d; transition: transform .16s, background .16s, color .16s; }
+		.focus-strip span:hover { background: var(--mint); color: var(--ink); transform: translateY(-5px) rotateX(8deg); }
+		.interaction-bar { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 22px; }
+		.tool-button { padding: 10px 14px; border: 3px solid var(--ink); background: var(--yellow); color: var(--ink); cursor: pointer; box-shadow: 4px 4px 0 var(--ink); font-weight: 700; }
+		.tool-button:hover { background: var(--mint); transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+		.tool-button[aria-pressed="true"] { background: var(--coral); }
+		.modal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 24px; background: rgba(23,32,45,.72); opacity: 0; pointer-events: none; transition: opacity .2s; }
+		.modal.is-open { opacity: 1; pointer-events: auto; }
+		.modal-card { width: min(620px, 100%); padding: 28px; border: 4px solid var(--ink); background: var(--paper); box-shadow: 10px 10px 0 var(--coral); transform: translateY(14px) rotate(-1deg); transition: transform .2s; }
+		.modal.is-open .modal-card { transform: translateY(0) rotate(0); }
+		.modal-card h2 { margin-bottom: 16px; font-size: clamp(1.3rem, 3vw, 2rem); }
+		.modal-card p { color: var(--muted); font-size: 1.4rem; }
+		.modal-close { float: right; border: 3px solid var(--ink); background: var(--coral); color: var(--ink); cursor: pointer; font-size: 1.3rem; line-height: 1; padding: 5px 9px; }
+		.voice-status { position: fixed; right: 22px; bottom: 22px; z-index: 15; display: none; padding: 9px 12px; border: 3px solid var(--ink); background: var(--mint); color: var(--ink); font-size: 1.05rem; box-shadow: 4px 4px 0 var(--ink); }
+		.voice-status.is-active { display: block; animation: blink 1s step-end infinite; }
 		footer { padding: 24px 0; color: var(--muted); font-size: 1rem; }
 		@media (max-width: 720px) {
 			.shell { padding: 0 20px; }
@@ -74,6 +175,19 @@
 			.initials { font-size: 6rem; }
 			.section { padding: 58px 0; }
 			.section-grid { grid-template-columns: 1fr; gap: 28px; }
+			.content-grid { grid-template-columns: 1fr; gap: 28px; }
+			.console-3d { width: 170px; height: 170px; }
+			.console-face.front { transform: translateZ(85px); }
+			.console-face.back { transform: rotateY(180deg) translateZ(85px); }
+			.console-face.right { transform: rotateY(90deg) translateZ(85px); }
+			.console-face.left { transform: rotateY(-90deg) translateZ(85px); }
+			.console-face.top { transform: rotateX(90deg) translateZ(85px); }
+			.console-face.bottom { transform: rotateX(-90deg) translateZ(85px); }
+			.console-face::before { width: 112px; height: 88px; font-size: .55rem; }
+			.modal-card { padding: 22px; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 		}
 	</style>
 </head>
@@ -83,6 +197,12 @@
 			<nav aria-label="Main navigation">
 				<div class="nav-links">
 					<a href="index.html">Home</a>
+					<a href="career.html">Career</a>
+					<a href="education.html">Education</a>
+					<a href="skills.html">Skills</a>
+					<a href="projects.html">Projects</a>
+					<a href="achievements.html">Achievements</a>
+					<a href="certifications.html">Learning</a>
 					<a href="contact.html">Contact</a>
 				</div>
 			</nav>
@@ -92,18 +212,198 @@
 	<main id="top">
 		<section class="shell hero">
 			<div>
-				<div class="eyebrow">Personal portfolio</div>
+				<div class="eyebrow">Software developer in progress</div>
 				<h1>Dhanush M</h1>
-				<p class="hero-copy">An engineering student building practical ideas, learning in public, and looking for the next interesting problem to solve.</p>
-				<a class="button" href="https://www.linkedin.com/in/dhanush-m-9888b440a" target="_blank" rel="noopener noreferrer">
+				<p class="hero-copy">Computer Science Engineering student and aspiring full stack developer building practical software across web development, artificial intelligence, cybersecurity, and data analysis.</p>
+				<a class="button" data-say="Opening Dhanush's LinkedIn profile." href="https://www.linkedin.com/in/dhanush-m-9888b440a" target="_blank" rel="noopener noreferrer">
 					View LinkedIn profile
 					<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 13 13 3M5 3h8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 				</a>
+				<div class="interaction-bar">
+					<button class="tool-button" id="voice-toggle" type="button" aria-pressed="true">[ VOICE: ON ]</button>
+					<button class="tool-button" id="welcome-button" type="button" data-say="Welcome to Dhanush M's interactive portfolio. Click a project card to inspect it.">[ RUN INTRO ]</button>
+					<button class="tool-button" id="crt-toggle" type="button" aria-pressed="false">[ CRT MODE ]</button>
+				</div>
 			</div>
-			<div class="portrait" aria-label="Interactive 3D visual">
+			<div class="portrait" id="portrait" aria-label="Interactive 3D visual. Move your pointer to rotate the console.">
+				<div class="console-3d" id="console-3d">
+					<div class="console-face front"><span class="console-status">ONLINE</span><span class="console-label">Dhanush M</span></div>
+					<div class="console-face back"><iframe class="instagram-video" src="https://www.instagram.com/p/DZP1oKOJCV9/embed/?autoplay=1" title="Dhanush Instagram video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="eager"></iframe><a class="instagram-fallback" href="https://www.instagram.com/p/DZP1oKOJCV9/" target="_blank" rel="noopener noreferrer">OPEN VIDEO ↗</a></div>
+					<div class="console-face right social-face"><strong>INSTAGRAM</strong><a data-say="Opening Dhanush's Instagram profile." href="https://www.instagram.com/_dhanush.udedar_/" target="_blank" rel="noopener noreferrer">@_dhanush.udedar_ ↗</a></div>
+					<div class="console-face left social-face"><strong>GITHUB</strong><a data-say="Opening Dhanush's GitHub profile." href="https://github.com/dhanugagan" target="_blank" rel="noopener noreferrer">@dhanugagan ↗</a></div>
+					<div class="console-face top social-face"><strong>LINKEDIN</strong><a data-say="Opening Dhanush's LinkedIn profile." href="https://www.linkedin.com/in/dhanush-m-9888b440a" target="_blank" rel="noopener noreferrer">Dhanush M ↗</a></div>
+					<div class="console-face bottom social-face more-socials"><strong>MORE LINKS</strong><a data-say="Opening Dhanush's LeetCode profile." href="https://leetcode.com/u/DhanushX20/" target="_blank" rel="noopener noreferrer">LEETCODE ↗</a><a data-say="Opening the SAPTHA NPSU Instagram profile." href="https://www.instagram.com/saptha_snpsu/" target="_blank" rel="noopener noreferrer">SAPTHA ↗</a><a data-say="Opening Dhanush's Snapchat profile." href="https://www.snapchat.com/add/dhanush_udedar" target="_blank" rel="noopener noreferrer">SNAPCHAT ↗</a></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="about">
+			<div class="shell content-grid">
+				<div><div class="eyebrow">01 / About</div><h2>Building useful things.</h2></div>
+				<div>
+					<p class="section-text">I am pursuing a Bachelor of Engineering in Computer Science and Engineering at Sapthagiri NPS University, Bengaluru. I enjoy turning ideas into working software, strengthening my fundamentals, and learning technologies that solve real problems.</p>
+					<p class="section-text"><strong>Currently pursuing 5th semester</strong> · CGPA 8.2</p>
+					<div class="socials">
+						<a href="https://github.com/dhanugagan" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+						<a href="https://www.instagram.com/_dhanush.udedar_/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+						<a data-say="Opening Dhanush's LeetCode profile." href="https://leetcode.com/u/DhanushX20/" target="_blank" rel="noopener noreferrer">LeetCode ↗</a>
+						<a data-say="Opening the SAPTHA NPSU Instagram profile." href="https://www.instagram.com/saptha_snpsu/" target="_blank" rel="noopener noreferrer">SAPTHA Instagram ↗</a>
+						<a data-say="Opening Dhanush's Snapchat profile." href="https://www.snapchat.com/add/dhanush_udedar" target="_blank" rel="noopener noreferrer">Snapchat ↗</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="skills">
+			<div class="shell content-grid">
+				<div><div class="eyebrow">02 / Toolkit</div><h2>Tools I work with.</h2></div>
+				<div class="skills">
+					<span class="skill">Python</span><span class="skill">JavaScript</span><span class="skill">Java</span><span class="skill">HTML / CSS</span><span class="skill">React.js</span><span class="skill">REST APIs</span><span class="skill">Tailwind CSS</span><span class="skill">DSA</span><span class="skill">Git &amp; GitHub</span><span class="skill">Firebase</span><span class="skill">SQL</span><span class="skill">Linux</span>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="projects">
+			<div class="shell content-grid">
+				<div><div class="eyebrow">03 / Selected work</div><h2>Projects with a purpose.</h2></div>
+				<div class="project-list">
+					<article class="project" tabindex="0" data-title="SAPTHA Smart Campus Companion" data-detail="A live web-based smart campus platform focused on centralized campus communication, with 14 plus integrated modules in Phase 1."><h3>SAPTHA Smart Campus Companion</h3><p>A live smart campus platform with 14+ integrated modules for centralized campus communication. <a data-say="Opening the SAPTHA Smart Campus portal." href="https://sapthasnpsuportal.vercel.app/" target="_blank" rel="noopener noreferrer">Open portal ↗</a></p></article>
+					<article class="project" tabindex="0" data-title="Cyber Security Management System" data-detail="A project focused on security monitoring and management functionalities, selected for the university Codeathon."><h3>Cyber Security Management System</h3><p>A project focused on security monitoring and management functionalities.</p></article>
+					<article class="project" tabindex="0" data-title="Smart Canteen Food Demand Predictor" data-detail="A data-focused project that analyzes and predicts food demand for smarter canteen management."><h3>Smart Canteen Food Demand Predictor</h3><p>Analyzes and predicts food demand to support smarter canteen management.</p></article>
+					<article class="project" tabindex="0" data-title="Skin Cancer Detection" data-detail="Current research work focused on skin cancer detection using machine learning and image analysis techniques."><h3>Skin Cancer Detection</h3><p>Research work exploring machine learning and image analysis for skin cancer detection.</p></article>
+					<article class="project" tabindex="0" data-title="Firebase Voting Management System" data-detail="A secure online voting platform using Firebase for authentication and data storage."><h3>Firebase Voting Management System</h3><p>A secure online voting platform using Firebase authentication and data storage.</p></article>
+					<article class="project" tabindex="0" data-title="Algorithms, analysis, and utility apps" data-detail="Additional work includes Vax Reminder Logic Engine, Knapsack Visualization, D5 Brainy student performance analysis, Student Library Management, Bill Generation, and Quiz applications."><h3>Algorithms, analysis, and utility apps</h3><p>Additional work includes a Vax Reminder Logic Engine, Knapsack Visualization, D5 Brainy, Student Library Management, Bill Generation, and Quiz applications.</p></article>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="education">
+			<div class="shell content-grid">
+				<div><div class="eyebrow">04 / Education</div><h2>Learning the fundamentals.</h2></div>
+				<ul class="education-list">
+					<li class="education-item"><strong>Sapthagiri NPS University, Bengaluru</strong>Bachelor of Engineering in Computer Science &amp; Engineering · Currently pursuing 5th semester · CGPA 8.2</li>
+					<li class="education-item"><strong>Seshadripuram PU College, Tumakuru</strong>KSEAB Percentage: 73.74% · March 2024</li>
+					<li class="education-item"><strong>SBG Vidyalaya, Mayasandra</strong>KSEEB Percentage: 83.84% · March 2022</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="section" id="certifications">
+			<div class="shell content-grid">
+				<div><div class="eyebrow">05 / Certifications</div><h2>Always in learning mode.</h2></div>
+				<ul class="cert-list">
+					<li class="cert-item"><strong>AI &amp; Generative AI</strong>Introduction to Modern AI · AI for Everyone · Generative AI for Beginners · Responsible AI · AI Fluency: Framework &amp; Foundations · AI Fluency for Educators</li>
+					<li class="cert-item"><strong>Anthropic / Claude</strong>Claude Code in Action · Claude 101 · Introduction to Agent Skills · Introduction to Subagents · Introduction to Claude Cowork</li>
+					<li class="cert-item"><strong>Data, Security &amp; Linux</strong>Introduction to Cybersecurity · Infosys Springboard Data Science Fundamentals · Database and SQL · The Linux Foundation Introduction to Linux (LFS101)</li>
+					<li class="cert-item"><strong>Professional Development</strong>Soft Skills Training Courses · Completed June 29, 2026</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="section" id="journey">
+			<div class="shell content-grid">
+				<div><div class="eyebrow">06 / Journey</div><h2>Learning by showing up.</h2></div>
+				<ul class="milestones">
+					<li><strong>Winner, Software Category</strong> · PREXPO 1.4 Project Expo 2025–26</li>
+					<li><strong>Smart and Sustainable University</strong> · Ideathon participant</li>
+					<li><strong>Cybersecurity Management System</strong> · Codeathon participant</li>
+					<li><strong>XYTHERA CTF</strong> · Dayananda Sagar University participant</li>
+					<li><strong>Certifications</strong> · AI, Generative AI, Cybersecurity, Data Science, SQL, Linux, and professional development</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="section contact" id="focus">
+			<div class="shell content-grid">
+				<div><div class="eyebrow">07 / Current focus</div><h2>What comes next.</h2></div>
+				<div class="focus-strip"><span>Software Development</span><span>Full Stack Development</span><span>Artificial Intelligence</span><span>Cybersecurity</span><span>Data Analysis</span><span>DSA</span></div>
 			</div>
 		</section>
 	</main>
+	<div class="modal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+		<div class="modal-card"><button class="modal-close" id="modal-close" type="button" aria-label="Close project details">X</button><div class="eyebrow">Project file opened</div><h2 id="modal-title">Project details</h2><p id="modal-detail"></p><button class="tool-button" id="modal-speak" type="button">[ READ ALOUD ]</button></div>
+	</div>
+	<div class="voice-status" id="voice-status" role="status">AI VOICE ACTIVE...</div>
 	<footer><div class="shell">© 2026 Dhanush M</div></footer>
+	<script>
+		const voiceToggle = document.querySelector("#voice-toggle");
+		const voiceStatus = document.querySelector("#voice-status");
+		const modal = document.querySelector("#project-modal");
+		const modalTitle = document.querySelector("#modal-title");
+		const modalDetail = document.querySelector("#modal-detail");
+		const modalSpeak = document.querySelector("#modal-speak");
+		let voiceEnabled = true;
+		let audioContext;
+
+		function playClick(pitch = 520) {
+			if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+			const oscillator = audioContext.createOscillator();
+			const gain = audioContext.createGain();
+			oscillator.type = "square";
+			oscillator.frequency.value = pitch;
+			gain.gain.setValueAtTime(.055, audioContext.currentTime);
+			gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + .09);
+			oscillator.connect(gain).connect(audioContext.destination);
+			oscillator.start();
+			oscillator.stop(audioContext.currentTime + .09);
+		}
+
+		function speak(message) {
+			if (!voiceEnabled || !("speechSynthesis" in window)) return;
+			window.speechSynthesis.cancel();
+			const utterance = new SpeechSynthesisUtterance(message);
+			utterance.rate = .94;
+			utterance.pitch = 1.05;
+			voiceStatus.classList.add("is-active");
+			utterance.onend = () => voiceStatus.classList.remove("is-active");
+			window.speechSynthesis.speak(utterance);
+		}
+
+		function closeModal() {
+			modal.classList.remove("is-open");
+			modal.setAttribute("aria-hidden", "true");
+		}
+
+		document.addEventListener("click", event => {
+			const link = event.target.closest("a[data-say]");
+			if (link) { playClick(680); speak(link.dataset.say); }
+			const project = event.target.closest(".project");
+			if (project && !event.target.closest("a")) {
+				playClick(440);
+				modalTitle.textContent = project.dataset.title;
+				modalDetail.textContent = project.dataset.detail;
+				modal.classList.add("is-open");
+				modal.setAttribute("aria-hidden", "false");
+				speak(project.dataset.detail);
+			}
+		});
+		document.addEventListener("keydown", event => {
+			if (event.key === "Escape") closeModal();
+			if ((event.key === "Enter" || event.key === " ") && event.target.classList.contains("project")) event.target.click();
+		});
+		document.querySelector("#modal-close").addEventListener("click", () => { playClick(300); closeModal(); });
+		modal.addEventListener("click", event => { if (event.target === modal) closeModal(); });
+		modalSpeak.addEventListener("click", () => { playClick(620); speak(modalDetail.textContent); });
+		voiceToggle.addEventListener("click", () => {
+			voiceEnabled = !voiceEnabled;
+			voiceToggle.textContent = voiceEnabled ? "[ VOICE: ON ]" : "[ VOICE: OFF ]";
+			voiceToggle.setAttribute("aria-pressed", String(voiceEnabled));
+			playClick(voiceEnabled ? 680 : 260);
+			if (!voiceEnabled) window.speechSynthesis.cancel();
+			else speak("AI voice enabled.");
+		});
+		const portrait = document.querySelector("#portrait");
+		const console3d = document.querySelector("#console-3d");
+		portrait.addEventListener("pointermove", event => {
+			const bounds = portrait.getBoundingClientRect();
+			const x = (event.clientX - bounds.left) / bounds.width - .5;
+			const y = (event.clientY - bounds.top) / bounds.height - .5;
+			console3d.style.animationPlayState = "paused";
+			console3d.style.transform = `rotateX(${-y * 30 - 14}deg) rotateY(${x * 40 - 24}deg)`;
+		});
+		portrait.addEventListener("pointerleave", () => { console3d.style.transform = ""; console3d.style.animationPlayState = "running"; });
+		document.querySelector("#welcome-button").addEventListener("click", event => { playClick(760); speak(event.currentTarget.dataset.say); });
+	</script>
+	<script src="portfolio.js"></script>
 </body>
 </html>
