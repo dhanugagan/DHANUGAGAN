@@ -4,18 +4,18 @@
 	let soundEnabled = true;
 	let audioContext;
 
-	function clickSound(pitch = 560) {
+	function clickSound(pitch = 560, waveform = "square", duration = .08) {
 		if (!soundEnabled) return;
 		if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
 		const oscillator = audioContext.createOscillator();
 		const gain = audioContext.createGain();
-		oscillator.type = "square";
+		oscillator.type = waveform;
 		oscillator.frequency.value = pitch;
 		gain.gain.setValueAtTime(.045, audioContext.currentTime);
-		gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + .08);
+		gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
 		oscillator.connect(gain).connect(audioContext.destination);
 		oscillator.start();
-		oscillator.stop(audioContext.currentTime + .08);
+		oscillator.stop(audioContext.currentTime + duration);
 	}
 
 	function say(message) {
@@ -184,13 +184,22 @@
 				return;
 			}
 			if (!isInteractiveHome) {
-				clickSound(620);
+				clickSound(620, "triangle", .12);
 				if (target.textContent.trim()) say(`Opening ${target.textContent.trim()}.`);
+			} else if (!target.matches("a[data-say]")) {
+				clickSound(620, "triangle", .12);
 			}
 			return;
 		}
-		clickSound(440);
+		clickSound(440, "sawtooth", .14);
 		const title = target.querySelector("h2, h3, strong")?.textContent || target.textContent.trim();
 		if (title) say(`${title}. ${target.textContent.trim()}`);
+	});
+
+	document.addEventListener("click", event => {
+		const target = event.target.closest('button, input, select, textarea, summary, [role="button"]');
+		if (!target || target.closest(".page-tools")) return;
+		if (isInteractiveHome && ["voice-toggle", "welcome-button", "crt-toggle", "modal-close", "modal-speak"].includes(target.id)) return;
+		clickSound(target.matches("button") ? 520 : 480, "square", .07);
 	});
 })();

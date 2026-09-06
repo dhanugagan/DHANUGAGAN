@@ -42,6 +42,22 @@
 			line-height: 1.5;
 		}
 		body::before { content: ""; position: fixed; inset: 0; z-index: 10; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(23,32,45,.035) 0, rgba(23,32,45,.035) 1px, transparent 1px, transparent 4px); mix-blend-mode: multiply; }
+		body.booting { overflow: hidden; }
+		.boot-screen { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: var(--ink); color: var(--mint); transition: opacity .45s steps(4, end), visibility .45s; }
+		.boot-screen::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 5px, rgba(141,232,208,.08) 5px 6px); pointer-events: none; }
+		.boot-screen.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+		.boot-console { width: min(520px, calc(100% - 44px)); padding: 26px; border: 3px solid var(--mint); box-shadow: 8px 8px 0 var(--coral); font-family: "VT323", monospace; font-size: 1.35rem; }
+		.boot-title { color: var(--yellow); font-family: "Press Start 2P", monospace; font-size: clamp(.9rem, 3vw, 1.4rem); line-height: 1.6; }
+		.boot-line { margin: 18px 0 10px; }
+		.boot-line::after { content: "_"; animation: boot-blink .7s steps(1, end) infinite; }
+		.boot-progress { height: 18px; border: 2px solid var(--mint); padding: 2px; }
+		.boot-progress span { display: block; width: 0; height: 100%; background: var(--coral); animation: boot-load 1.25s steps(8, end) forwards; }
+		.boot-hint { margin: 14px 0 0; color: var(--paper); font-size: 1rem; }
+		@keyframes boot-load { to { width: 100%; } }
+		@keyframes boot-blink { 50% { opacity: 0; } }
+		.hero > div:first-child { animation: hero-in .65s .95s both steps(5, end); }
+		.portrait { animation: hero-in .65s 1.1s both steps(5, end); }
+		@keyframes hero-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 		a { color: inherit; }
 		button { font: inherit; }
 		.shell { max-width: 1180px; margin: auto; padding: 0 30px; }
@@ -66,6 +82,8 @@
 		.console-3d { position: relative; z-index: 1; width: 230px; height: 230px; transform-style: preserve-3d; transform: rotateX(-14deg) rotateY(-24deg); transition: transform .12s ease-out; animation: cube-spin 14s linear infinite; }
 		.console-face { position: absolute; inset: 0; display: grid; place-items: center; border: 4px solid var(--ink); background: var(--cube-1); box-shadow: inset 0 0 0 8px rgba(247,240,220,.22); backface-visibility: hidden; transition: background-color .8s ease; }
 		.console-face::before { content: "DHANU"; display: grid; place-items: center; width: 156px; height: 122px; border: 5px solid var(--ink); border-radius: 50%; color: var(--yellow); font-family: "Press Start 2P", monospace; font-size: .78rem; letter-spacing: .04em; text-align: center; text-shadow: 3px 3px 0 var(--ink); box-shadow: 10px 10px 0 var(--ink); animation: wordmark-glitch 2.8s steps(1, end) infinite; }
+		.console-face.front::before { display: none; }
+		.profile-image { width: 150px; height: 150px; border: 5px solid var(--ink); border-radius: 50%; object-fit: cover; object-position: center; image-rendering: auto; box-shadow: 10px 10px 0 var(--ink); filter: saturate(.82) contrast(1.08); }
 		.console-face.front { transform: translateZ(115px); }
 		.console-face.back { transform: rotateY(180deg) translateZ(115px); background: var(--cube-2); }
 		.console-face.right { transform: rotateY(90deg) translateZ(115px); background: var(--cube-3); }
@@ -191,7 +209,15 @@
 		}
 	</style>
 </head>
-<body>
+<body class="booting">
+	<div class="boot-screen" id="boot-screen" role="status" aria-live="polite">
+		<div class="boot-console">
+			<div class="boot-title">DHANUSH M</div>
+			<div class="boot-line">Loading personal interface</div>
+			<div class="boot-progress" aria-hidden="true"><span></span></div>
+			<div class="boot-hint">2026 · READY TO EXPLORE</div>
+		</div>
+	</div>
 	<header>
 		<div class="shell">
 			<nav aria-label="Main navigation">
@@ -227,7 +253,7 @@
 			</div>
 			<div class="portrait" id="portrait" aria-label="Interactive 3D visual. Move your pointer to rotate the console.">
 				<div class="console-3d" id="console-3d">
-					<div class="console-face front"><span class="console-status">ONLINE</span><span class="console-label">Dhanush M</span></div>
+					<div class="console-face front"><img class="profile-image" src="profile.jpeg" alt="Portrait of Dhanush M"><span class="console-status">ONLINE</span><span class="console-label">Dhanush M</span></div>
 					<div class="console-face back"><iframe class="instagram-video" src="https://www.instagram.com/p/DZP1oKOJCV9/embed/?autoplay=1" title="Dhanush Instagram video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="eager"></iframe><a class="instagram-fallback" href="https://www.instagram.com/p/DZP1oKOJCV9/" target="_blank" rel="noopener noreferrer">OPEN VIDEO ↗</a></div>
 					<div class="console-face right social-face"><strong>INSTAGRAM</strong><a data-say="Opening Dhanush's Instagram profile." href="https://www.instagram.com/_dhanush.udedar_/" target="_blank" rel="noopener noreferrer">@_dhanush.udedar_ ↗</a></div>
 					<div class="console-face left social-face"><strong>GITHUB</strong><a data-say="Opening Dhanush's GitHub profile." href="https://github.com/dhanugagan" target="_blank" rel="noopener noreferrer">@dhanugagan ↗</a></div>
@@ -283,7 +309,7 @@
 				<ul class="education-list">
 					<li class="education-item"><strong>Sapthagiri NPS University, Bengaluru</strong>Bachelor of Engineering in Computer Science &amp; Engineering · Currently pursuing 5th semester · CGPA 8.2</li>
 					<li class="education-item"><strong>Seshadripuram PU College, Tumakuru</strong>KSEAB Percentage: 73.74% · March 2024</li>
-					<li class="education-item"><strong>SBG Vidyalaya, Mayasandra</strong>KSEEB Percentage: 83.84% · March 2022</li>
+					<li class="education-item"><strong>SBG Vidyalaya, Mayasandra</strong>KSEEB Percentage: 83.84% · April 2022</li>
 				</ul>
 			</div>
 		</section>
@@ -335,17 +361,17 @@
 		let voiceEnabled = true;
 		let audioContext;
 
-		function playClick(pitch = 520) {
+		function playClick(pitch = 520, waveform = "square", duration = .09) {
 			if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
 			const oscillator = audioContext.createOscillator();
 			const gain = audioContext.createGain();
-			oscillator.type = "square";
+			oscillator.type = waveform;
 			oscillator.frequency.value = pitch;
 			gain.gain.setValueAtTime(.055, audioContext.currentTime);
-			gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + .09);
+			gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
 			oscillator.connect(gain).connect(audioContext.destination);
 			oscillator.start();
-			oscillator.stop(audioContext.currentTime + .09);
+			oscillator.stop(audioContext.currentTime + duration);
 		}
 
 		function speak(message) {
@@ -365,11 +391,13 @@
 		}
 
 		document.addEventListener("click", event => {
+			const navigation = event.target.closest("nav a");
+			if (navigation) playClick(360, "square", .05);
 			const link = event.target.closest("a[data-say]");
-			if (link) { playClick(680); speak(link.dataset.say); }
+			if (link) { playClick(680, "triangle", .12); speak(link.dataset.say); }
 			const project = event.target.closest(".project");
 			if (project && !event.target.closest("a")) {
-				playClick(440);
+				playClick(440, "sawtooth", .14);
 				modalTitle.textContent = project.dataset.title;
 				modalDetail.textContent = project.dataset.detail;
 				modal.classList.add("is-open");
@@ -381,14 +409,14 @@
 			if (event.key === "Escape") closeModal();
 			if ((event.key === "Enter" || event.key === " ") && event.target.classList.contains("project")) event.target.click();
 		});
-		document.querySelector("#modal-close").addEventListener("click", () => { playClick(300); closeModal(); });
-		modal.addEventListener("click", event => { if (event.target === modal) closeModal(); });
-		modalSpeak.addEventListener("click", () => { playClick(620); speak(modalDetail.textContent); });
+		document.querySelector("#modal-close").addEventListener("click", () => { playClick(300, "sawtooth", .16); closeModal(); });
+		modal.addEventListener("click", event => { if (event.target === modal) { playClick(280, "sine", .08); closeModal(); } });
+		modalSpeak.addEventListener("click", () => { playClick(620, "triangle", .18); speak(modalDetail.textContent); });
 		voiceToggle.addEventListener("click", () => {
 			voiceEnabled = !voiceEnabled;
 			voiceToggle.textContent = voiceEnabled ? "[ VOICE: ON ]" : "[ VOICE: OFF ]";
 			voiceToggle.setAttribute("aria-pressed", String(voiceEnabled));
-			playClick(voiceEnabled ? 680 : 260);
+			playClick(voiceEnabled ? 680 : 260, voiceEnabled ? "triangle" : "sawtooth", .12);
 			if (!voiceEnabled) window.speechSynthesis.cancel();
 			else speak("AI voice enabled.");
 		});
@@ -402,7 +430,15 @@
 			console3d.style.transform = `rotateX(${-y * 30 - 14}deg) rotateY(${x * 40 - 24}deg)`;
 		});
 		portrait.addEventListener("pointerleave", () => { console3d.style.transform = ""; console3d.style.animationPlayState = "running"; });
-		document.querySelector("#welcome-button").addEventListener("click", event => { playClick(760); speak(event.currentTarget.dataset.say); });
+		document.querySelector("#welcome-button").addEventListener("click", event => { playClick(760, "square", .2); speak(event.currentTarget.dataset.say); });
+		const bootScreen = document.querySelector("#boot-screen");
+		const finishBoot = () => {
+			bootScreen.classList.add("is-done");
+			document.body.classList.remove("booting");
+			window.setTimeout(() => bootScreen.remove(), 500);
+		};
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) finishBoot();
+		else window.setTimeout(finishBoot, 1450);
 	</script>
 	<script src="portfolio.js"></script>
 </body>
